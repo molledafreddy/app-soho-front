@@ -1,6 +1,6 @@
 <template>
   <article class="card-body mx-auto" style="max-width: 400px;">
-    <h4 class="card-title mt-3 text-center">Crear usuario</h4>
+    <h4 class="card-title mt-3 text-center">Reset Password</h4>
     <form>
       <!-- <b-form> -->
         <div class="form-group">
@@ -13,7 +13,7 @@
           <input v-model="form.password_confirmation" type="password" class="form-control" placeholder="Confirm password">
         </div><!-- form-group -->
       <div class="form-group">
-        <b-button class="btn btn-primary btn-block btn-signin" type="submit" @click.prevent="doLogin" variant="primary" >Entrar</b-button>
+        <b-button class="btn btn-primary btn-block btn-signin" type="submit" @click.prevent="sendForm" variant="primary" >Reset</b-button>
       </div> <!-- form-group// -->
       </form>
   </article>
@@ -31,42 +31,16 @@
         token:this.$route.params.hash,
       },
     }
-  },mounted() {
-      this.validView();
-  },methods: {
-    validView(){
-      var obj={}, slf = this;
-      obj.hash=this.form.token;
-      slf.$http.post('../../validViewHash',obj)
-        .then(response => {
-           console.log(response);
-        })
-        .catch(error => {
-            console.log(error.response)
-        });
-    },
-    resetError(){
-      this.alert.msg=null;
-      this.alert.oper=null;
-      this.validemail=true;
-    },
-    setPass(){   
-      this.$validator.validateAll().then((result) => {
-        if(result){
-          this.sendForm();
-        }
-      }).catch(() => {console.log('error form')});
-    },
+  },
+  methods: {
     sendForm(){  
       var slf = this;
-      // '../../api/password/reset'
-      slf.$http.post('/password/reset', this.form).then((res)=>{
+      slf.$http.post('https://appsoho.herokuapp.com/api/call-reset-password', this.form).then((res)=>{
           console.log(res);
           if (res.status == 200)  {
             var sfl=this;
-            slf.$http.post('../../logout')
+            slf.$http.post('https://appsoho.herokuapp.com/api/logout')
               .then(response => {
-                  sfl.$store.commit('logout');
                   sfl.$router.push('/login');
                   console.log(response);
               })
@@ -79,14 +53,12 @@
         var i = 0;
         if (err.response.data.errors.password) {
           for ( i = err.response.data.errors.password[0].length - 1; i >= 0; i--) {
-            
             //se muestra mensaje
             console.log()
           }
           
         }else if (err.response.data.errors.email){
           for ( i = err.response.data.errors.email[0].length - 1; i >= 0; i--) {
-            
             console.log()
           }
         }
@@ -95,7 +67,6 @@
       })
       .catch((error)=>{
         console.log(error);
-        // Vue.toasted.show(error, {icon: 'exclamation-triangle', type: 'error'})
       });
     }
   }

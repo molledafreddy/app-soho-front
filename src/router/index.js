@@ -4,6 +4,7 @@ import Home from '../views/home/Index.vue'
 import Login from '../views/auth/Login.vue'
 import Register from '../views/auth/Register.vue'
 import ResetPassword from '../views/auth/ResetPassword.vue'
+import SendEmail from '../views/auth/SendEmail.vue'
 import Shoes from '../views/shoes/Index.vue'
 
 
@@ -29,6 +30,11 @@ const routes = [
     path: '/register',
     name: 'register',
     component: Register
+  },
+  {
+    path: '/sent-email',
+    name: 'sent-email',
+    component: SendEmail
   },
   {
     path: '/reset-password',

@@ -1,9 +1,9 @@
 <template>
   <b-row>
-    <b-col v-for="item in items" :key="item.id">
+    <b-col v-for="shoe in shoes" :key="shoe.id">
       
       <b-card
-      :title="item.title"
+      :title="shoe.name"
       img-src="https://picsum.photos/600/300/?image=25"
       img-alt="Image"
       img-top
@@ -11,7 +11,7 @@
       class="mb-2"
     >
       <b-card-text>
-        Some quick example text to build on the card title and make up the bulk of the card's content.
+        {{shoe.description}}
       </b-card-text>
 
       <b-button href="#" variant="primary">Go somewhere</b-button>
@@ -21,16 +21,19 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
-      items: [
-        {id: 1, title: 'Nombre del producto'},
-        {id: 2, title: 'Nombre del producto'},
-        {id: 3, title: 'Nombre del producto'},
-        {id: 4, title: 'Nombre del producto'}
-      ]
+      shoes: []
     }
+  },
+  mounted(){
+    this.$http.get('https://appsoho.herokuapp.com/api/shoes')
+        .then(response => {
+            this.shoes = response.data.data.data  
+            console.log(this.shoes);
+        })
   }
 }
 </script>

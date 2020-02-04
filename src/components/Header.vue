@@ -40,10 +40,7 @@
     export default{
       data(){
         return{
-          csrf_token: this.$http.defaults.headers.common['X-CSRF-TOKEN'],
-          root:null,
           style:false,
-          color: 'black',
           showLogout: false,
           arrayOfObjects: [],
           object: {
@@ -66,45 +63,29 @@
             return
         },
         logout(){
-          // let vm = this;
+          let vm = this;
           // api/auth/logout
-          // console.log(myToken.csrfToken);
-          // axios.get('/logout', {
-          //   'headers' : {
-          //     'Content-Type': 'application/json',
-          //     'Authorization': 'Bearer '+ myToken.csrfToken,
-          //   }
-          // })
-          // .then(response => {
-          //   console.log(response)
-          //     vm.$store.commit('logout');
-          //     vm.$router.push('/login');
-          //     // location.reload();
-          // })
-          // .catch(error => {
-          //     console.log(error)
-          // });
+          this.http.get('https://appsoho.herokuapp.com/api/logout', {
+            'headers' : {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer '+ localStorage.getItem("token"),
+            }
+          })
+          .then(response => {
+            console.log(response)
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            vm.$router.push('/login');
+          })
+          .catch(error => {
+              console.log(error)
+          });
         },
       },
       computed: {
-        user(){
-          return this.$store.getters.getSession
-        },
-        langS(){
-          return this.$store.getters.getLangSession
-        },
-        validAuthenticated(){
-          if(this.$store.getters.getSession.name!=undefined){
-            return true;
-          }else{
-            return false;
-          }
-        },styleMenu(){
+        styleMenu(){
           return this.$route.path=="/";
         },
-        // color(){
-        //   return this.$store.getters.getColor
-        // },
       }
     }
 </script>
