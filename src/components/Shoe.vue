@@ -21,8 +21,6 @@
 </template>
 
 <script>
-    import axios from 'axios'
-
     export default {
       name: 'shoe',
       data(){
@@ -31,9 +29,8 @@
         }
       },
       mounted(){
-        
-        axios.get('https://appsoho.herokuapp.com/api/shoes')
-        // axios.get('https://jsonplaceholder.typicode.com/users')
+        this.$http.get('https://appsoho.herokuapp.com/api/shoes')
+        // $http.get('https://jsonplaceholder.typicode.com/users')
             .then(response => {
                 this.shoes = response.data.data.data
                 console.log(this.shoes);

@@ -1,25 +1,35 @@
 import Vue from 'vue'
+import BootstrapVue from 'bootstrap-vue'
+import moment from 'moment'
+import axios from 'axios'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import './assets/custom.scss'
 
-import BootstrapVue from 'bootstrap-vue'
-import Toasted from 'vue-toasted';
 
+
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+
+// Vue.use styles
+Vue.use(BootstrapVue)
+
+Vue.config.productionTip = false
 Vue.config.productionTip = false
 
 //Bootstrap Vue
 Vue.use(BootstrapVue);
 
-//componets
-Vue.component('shoe-edit', require('./components/shoes/Edit.vue'));
 
-//Toast alerts
-Vue.use(Toasted,  {duration: 3000, iconPack : 'fontawesome', theme: 'outline'})
+Vue.prototype.$moment = moment;
+Vue.prototype.$http = axios;
 
-window.clone = function (obj) {
-    return JSON.parse(JSON.stringify(obj));
-}
+// window.clone = function (obj) {
+//     return JSON.parse(JSON.stringify(obj));
+// }
+axios.defaults.baseURL = 'http://localhost:3000/';
 
 new Vue({
   router,

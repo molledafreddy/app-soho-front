@@ -7,8 +7,12 @@
 
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
-        <b-nav-item href="#">Link</b-nav-item>
-        <b-nav-item href="#" disabled>Disabled</b-nav-item>
+        <b-nav-item  to="/">
+          Home
+        </b-nav-item>
+        <b-nav-item  to="/shoes">
+          Shoes
+        </b-nav-item>
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->
@@ -17,58 +21,26 @@
           <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
           <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
         </b-nav-form>
-
-        <b-nav-item-dropdown text="Lang" right>
-          <b-dropdown-item href="#">EN</b-dropdown-item>
-          <b-dropdown-item href="#">ES</b-dropdown-item>
-          <b-dropdown-item href="#">RU</b-dropdown-item>
-          <b-dropdown-item href="#">FA</b-dropdown-item>
-        </b-nav-item-dropdown>
-
         <b-nav-item-dropdown right>
           <!-- Using 'button-content' slot -->
           <template v-slot:button-content>
-            <em>User</em>
+            <em>Usuario</em>
           </template>
-          <b-dropdown-item href="#">Profile</b-dropdown-item>
-          <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+          <b-dropdown-item href="#">Perfil</b-dropdown-item>
+          <b-dropdown-item  to="/login">Iniciar sesion</b-dropdown-item>
+          <b-dropdown-item  to="/register">Registrar</b-dropdown-item>
+          <b-dropdown-item href="#">Salir</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
 </div>
 </template>
-<!-- <style type="text/css">
-  .tx-danger {
-    color: #dc3545 !important; }
-  a.tx-danger:hover, a.tx-danger:focus {
-  color: #d32535 !important; }
-  .bd-danger {
-  border-color: #dc3545 !important; }
-  .bg-danger {
-  background-color: #dc3545 !important; }
-  .bg-black {
-  background-color: rgba(0, 0, 0, 0.9) !important;}
-  .bd-black {
-  border-color: #181818 !important;}
-  .tx-purple {
-  color: #6f42c1 !important; }
-  .bd-purple {
-  border-color: #6f42c1 !important; }
-  .bg-purple {
-  background-color: #6f42c1 !important; }
-  .bd-pink {
-    border-color: #e83e8c !important; }
-  
-
-</style> -->
 <script>
-    // import dropdown from 'vue-dropdowns';
-    import axios from 'axios';
     export default{
       data(){
         return{
-          csrf_token: axios.defaults.headers.common['X-CSRF-TOKEN'],
+          csrf_token: this.$http.defaults.headers.common['X-CSRF-TOKEN'],
           root:null,
           style:false,
           color: 'black',

@@ -1,7 +1,9 @@
 <template>
-    <div>
-        <h1>hola</h1>
-    </div>
+
+ <b-card title="Productos" sub-title="Lista de productos">    
+    <b-table striped hover :items="items" :fields="fields" ></b-table>
+</b-card>      
+            
 </template>
 
 <script>
@@ -14,22 +16,36 @@
         data(){
             return{
                 fields: [
-                    { key: 'id', label: '#', sortable: true },
-                    { key: 'name', label: 'Name', sortable: true },
-                    { key: 'color', label: 'Color', sortable: true},
-                    { key: 'price', label: 'Price', sortable: true},
-                    { key: 'size', label: 'Size', sortable: true},
-                    { key: 'status', label: 'Status', sortable: true},
-                    { key: 'actions', label: 'Actions', 'class': 'pull-right'},
+                    {
+                        key: 'name',
+                        label: 'Nombre',
+                        sortable: true
+                    },
+                    {
+                        key: 'description',
+                        label: 'Descripcion',
+                        sortable: false
+                    },
+                    {
+                        key: 'image',
+                        label: 'Imagen',
+                        sortable: true,
+                    }
                 ],
-                currentPage: null,
-                target: '',
-                draft: {},
-                currentIndex: null,
-                showEdit: false,
-                sortBy: 'id',
-                sortDesc: true,
-                flag:false,
+                items: [    
+                    { image: 40, name: 'Dickerson', description: 'Macdonald' },
+                    { image: 21, name: 'Larsen', description: 'Shaw' },
+                    { image: 89, name: 'Geneva', description: 'Wilson' },
+                    { image: 38, name: 'Jami', description: 'Carney' },
+                    { image: 40, name: 'Dickerson', description: 'Macdonald' },
+                    { image: 21, name: 'Larsen', description: 'Shaw' },
+                    { image: 89, name: 'Geneva', description: 'Wilson' },
+                    { image: 38, name: 'Jami', description: 'Carney' },
+                    { image: 40, name: 'Dickerson', description: 'Macdonald' },
+                    { image: 21, name: 'Larsen', description: 'Shaw' },
+                    { image: 89, name: 'Geneva', description: 'Wilson' },
+                    { image: 38, name: 'Jami', description: 'Carney' }
+                ]   
             }
         },
         created(){

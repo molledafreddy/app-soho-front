@@ -73,7 +73,7 @@ export default {
           this.loading = true
           if(result){
             var slf=this;
-            axios.post('../api/validEmail', this.form).then((res)=>{
+            slf.$http.post('../api/validEmail', this.form).then((res)=>{
               slf.loading = false
                 if (res.status == 200)  {
                   if(slf.$store.getters.getSession.name!=undefined){
