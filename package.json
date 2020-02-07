@@ -6,6 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
+    "postinstall" : "npm run build",
     "start": "node server.js"
   },
   "dependencies": {
@@ -34,6 +35,9 @@
     "babel-eslint": "^10.0.3",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
-    "vue-template-compiler": "^2.6.10"
+    "express": "^4.17.1",
+    "serve-static": "^1.14.1",
+    "vue-template-compiler": "^2.6.10",
+    "ws": "3.3.2"
   }
 }
