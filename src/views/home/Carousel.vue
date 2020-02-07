@@ -55,11 +55,10 @@
       }
     },
     mounted(){
-    this.$http.get('https://appsoho.herokuapp.com/api/shoes')
-        .then(response => {
-            this.shoes = response.data.data.data  
-            console.log(this.shoes);
-        })
-  }
+      this.$http.get('https://app-soho-back.herokuapp.com/api/list/shoes')
+      .then(response => {
+          this.shoes = response.data.data
+      })
+    }
   }
 </script>

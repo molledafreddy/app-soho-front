@@ -1,20 +1,15 @@
 <template>
   <article class="card-body mx-auto" style="max-width: 400px;">
-    <h4 class="card-title mt-3 text-center">Sent Email</h4>
+    <h4 class="card-title mt-5 text-center">Send Email</h4>
     <form>
       <!-- <b-form> -->
       <div class="form-group">
         <input v-model="form.email" type="text" class="form-control" placeholder="Enter your email">
       </div><!-- form-group -->
       <div class="form-group">
-        <b-button class="btn btn-primary btn-block btn-signin" type="submit" @click.prevent="sendForm" variant="primary" >Sent</b-button>
+        <b-button class="btn btn-primary btn-block btn-signin" type="submit" @click.prevent="sendForm" variant="primary" >Send</b-button>
       </div> <!-- form-group// -->
-      <template v-if="errorCred">
-        <div class="alert alert-danger mt text-center" role="alert">
-          {{message}}
-        </div><!-- alert -->
-      </template>
-      </form>
+    </form>    
   </article>
 </template>
 <style type="text/css">
@@ -30,8 +25,6 @@
   export default {
   data () {
     return {
-      errorCred:false,
-      message: 'Error credentials',
       form: {
         email: '',
       },
@@ -44,18 +37,38 @@
           if (res)  {
               slf.$router.push('/login');
           }else if(res.data.status == 401){
-            // console.log(res.data.msg)
-            slf.errorCred=true
-             let self = this;
-            setTimeout(function(){
-                self.errorCred=false
-            }, 4000);
+            slf.$bvToast.toast('There was an error sending the email', {
+              title: 'Error',
+              autoHideDelay: 2000,
+              variant: 'danger',
+              appendToast: false
+            })
           }
-      },(err) => {
-        console.log(err.response.data.errors)
+      },(error) => {
+        if (error.response && error.response.status === 500) {
+          slf.$bvToast.toast([error.response.data.error], {
+            title: 'Error send email',
+            autoHideDelay: 2000,
+            variant: 'danger',
+            appendToast: false
+          })
+        } else {
+            console.log(error);
+        }
       })
       .catch((error)=>{
-        console.log(error);
+        if (error.response && error.response.status === 422) {
+            for (var i = error.response.data.error.length - 1; i >= 0; i--) {
+                self.$bvToast.toast([error.response.data.error[i]], {
+                  title: 'Error send email',
+                  autoHideDelay: 2000,
+                  variant: 'danger',
+                  appendToast: false
+                })
+            }
+        } else {
+            console.log(error);
+        }
       });
     }
   }

@@ -1,11 +1,43 @@
 <template>
-
- <b-card title="Productos" sub-title="Lista de productos">    
-    <b-table striped hover :items="items" :fields="fields" ></b-table>
-</b-card>      
+    <div>
+         <div class="panel-heading mt-4">
+            <div class="pull-left">
+                <h3>Shoes</h3>
+<!--                 <search @search="search"></search> -->  
+            </div>
+            <div class="pull-right position-b">
+                <button class="btn btn-primary" @click="add()">Create</button>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="centrado" style="width: 95%">
+            <b-card >    
+                    <b-table striped hover :items="shoes" :fields="fields" >
+                    <template v-slot:cell(actions)="data">
+                        <button class="btn btn-warning mr-1 btn-sm" @click="edit(data.item)" title="Update">
+                            <b-icon-arrow-clockwise></b-icon-arrow-clockwise>
+                        </button>
+                        <button class="btn btn-danger btn-sm" @click="remove(data.item)" title="Delete">
+                            <b-icon-trash-fill></b-icon-trash-fill>
+                        </button>
+                    </template>
+                </b-table>
+            </b-card>
+        </div>
+    </div>   
             
 </template>
-
+<style type="text/css">
+    .position-b {
+        margin-left: 1100px;
+        margin-bottom: 5px; 
+        /*float:right;*/
+    }
+    .centrado{
+      margin-left: auto;
+      margin-right: auto;
+    }
+</style>
 <script>
     export default {
         watch:{
@@ -15,108 +47,88 @@
         },
         data(){
             return{
+                shoes:[],
                 fields: [
                     {
                         key: 'name',
-                        label: 'Nombre',
+                        label: 'Name',
                         sortable: true
                     },
                     {
+                        key: 'color',
+                        label: 'Color',
+                        sortable: true,
+                    },
+                    {
+                        key: 'price',
+                        label: 'Price',
+                        sortable: true,
+                    },
+                    {
+                        key: 'size',
+                        label: 'Size',
+                        sortable: true,
+                    },
+                    {
                         key: 'description',
-                        label: 'Descripcion',
+                        label: 'Description',
                         sortable: false
                     },
                     {
-                        key: 'image',
-                        label: 'Imagen',
-                        sortable: true,
+                        key: 'actions',
+                        label: 'Actions'
                     }
-                ],
-                items: [    
-                    { image: 40, name: 'Dickerson', description: 'Macdonald' },
-                    { image: 21, name: 'Larsen', description: 'Shaw' },
-                    { image: 89, name: 'Geneva', description: 'Wilson' },
-                    { image: 38, name: 'Jami', description: 'Carney' },
-                    { image: 40, name: 'Dickerson', description: 'Macdonald' },
-                    { image: 21, name: 'Larsen', description: 'Shaw' },
-                    { image: 89, name: 'Geneva', description: 'Wilson' },
-                    { image: 38, name: 'Jami', description: 'Carney' },
-                    { image: 40, name: 'Dickerson', description: 'Macdonald' },
-                    { image: 21, name: 'Larsen', description: 'Shaw' },
-                    { image: 89, name: 'Geneva', description: 'Wilson' },
-                    { image: 38, name: 'Jami', description: 'Carney' }
-                ]   
+                ]  
             }
         },
         created(){
             this.getShoes()
         },
         methods:{
-            // edit(shoe, index){
-            //     this.draft = clone(shoe)
-            //     this.currentIndex = index
-            //     this.showEdit = true
-            //     this.draft.flag=false
-            // },
-            create(){
-                this.draft = {
-                    id: null,
-                    name: '',
-                    color: '',
-                    price: null,
-                    size: null,
-                    status: null,
-                    flag:true,
-                }
-                this.showEdit = true
+            add(){
+                this.$router.push({name: 'ShoesAdd'})
+            },
+            edit(shoe){
+                this.$router.push({ name: 'ShoesEdit', params: { id: shoe.id } })
             },
             getShoes(){
-                let params = {page: this.currentPage, target: this.target, orderBy: this.sortBy, desc: this.sortDesc}
-                this.$store.dispatch('getShoes', params)
+                // , {
+                //     'headers' : {
+                //       'Accenpt': 'application/json',
+                //       'Authorization': 'Bearer '+ localStorage.getItem("token"),
+                //     }
+                //   }
+                // let token = localStorage.getItem("token")
+                this.$http.get('https://app-soho-back.herokuapp.com/api/shoes')
+                .then(response => {
+                    this.shoes = response.data.data.data
+                    for (var i = this.shoes.length - 1; i >= 0; i--) {
+                      this.shoes[i].description = this.shoes[i].description.substring(0, 40)
+                    }
+                })
             },
-            close(){
-              this.showEdit = false
-            },
-            // remove(item, index){
-            //     this.$swal({
-            //       title: 'Delete title',
-            //       text: 'app.common.delete_text') + item.name +'?',
-            //       type: 'warning',
-            //       showCancelButton: true,
-            //       confirmButtonShoe: '#3085d6',
-            //       cancelButtonShoe: '#d33',
-            //       confirmButtonText: trans('app.common.delete_confirm'),
-            //       cancelButtonText: trans('app.common.0')
-            //     }).then((result) => {
-            //       if (result.value) {
-            //         this.$store.dispatch('removeShoe', item.id)
-            //       }
-            //     })
-            // },
-            sortingChanged (ctx) {
-                if (ctx.sortBy) {
-                    this.sortBy = ctx.sortBy
-                    this.sortDesc = ctx.sortDesc
-                    this.currentPage = 1
-                    this.getShoes()
-                }
-            },
-        },
-        computed:{
-            shoe(){
-                return this.$store.state.Shoe.shoes
-            },
-            current_page(){
-                return this.$store.state.Shoe.currentPage
-            },
-            totalRows(){
-                return this.$store.state.Shoe.totalRows
-            },
-            perPage(){
-                return this.$store.state.Shoe.perPage
-            },
-            loading(){
-               return this.$store.state.Shoe.loading
+            remove(item){   
+                var self = this;
+                this.$http.delete('https://app-soho-back.herokuapp.com/api/shoes/' + item.id)
+                .then(function(response) {
+                    self.getShoes();
+                    console.log(response);
+                    self.$bvToast.toast('Registration was successfully deleted', {
+                      title: 'Delete Record',
+                      autoHideDelay: 2000,
+                      variant: 'success',
+                      appendToast: false
+                    })
+                })
+                .catch(error => {
+                    alert(error);
+                    self.$bvToast.toast('Delete process failed', {
+                      title: 'Delete Record',
+                      autoHideDelay: 2000,
+                      variant: 'danger',
+                      appendToast: false
+                    })
+                })
             }
         }
     }

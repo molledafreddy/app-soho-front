@@ -29,10 +29,13 @@ export default {
     }
   },
   mounted(){
-    this.$http.get('https://appsoho.herokuapp.com/api/shoes')
+    this.$http.get('https://app-soho-back.herokuapp.com/api/list/shoes')
         .then(response => {
-            this.shoes = response.data.data.data  
-            console.log(this.shoes);
+            this.shoes = response.data.data
+            for (var i = this.shoes.length - 1; i >= 0; i--) {
+              this.shoes[i].name = this.shoes[i].name.substring(0, 10)
+              this.shoes[i].description = this.shoes[i].description.substring(0, 40)
+            }  
         })
   }
 }

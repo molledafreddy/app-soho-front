@@ -6,6 +6,7 @@ import Register from '../views/auth/Register.vue'
 import ResetPassword from '../views/auth/ResetPassword.vue'
 import SendEmail from '../views/auth/SendEmail.vue'
 import Shoes from '../views/shoes/Index.vue'
+import ShoesForm from '../views/shoes/Form.vue'
 
 
 Vue.use(VueRouter)
@@ -24,7 +25,17 @@ const routes = [
   {
     path: '/shoes',
     name: 'shoes',
-    component: Shoes
+    component: Shoes,
+  },
+  {
+    path: '/shoes/add',
+    name: 'ShoesAdd',
+    component: ShoesForm
+  },
+  {
+    path: '/shoes/edit/:id',
+    name: 'ShoesEdit',
+    component: ShoesForm
   },
   {
     path: '/register',
@@ -32,8 +43,8 @@ const routes = [
     component: Register
   },
   {
-    path: '/sent-email',
-    name: 'sent-email',
+    path: '/send-email',
+    name: 'send-email',
     component: SendEmail
   },
   {

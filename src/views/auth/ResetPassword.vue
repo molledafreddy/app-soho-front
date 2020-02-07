@@ -22,8 +22,6 @@
   export default {
   data () {
     return {
-      csrf_token: this.$http.defaults.headers.common['X-CSRF-TOKEN'],
-      validemail:true,
       form: {
         email: '',
         password: '',

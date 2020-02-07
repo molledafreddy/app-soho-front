@@ -22,7 +22,7 @@
         <b-button class="btn btn-primary btn-block btn-signin" type="submit" @click.prevent="doLogin" variant="primary" >Entrar</b-button>
       </div> <!-- form-group// -->
       
-      <p class="text-center">Olvido su contraseña? <router-link to="/reset-password">Recuperar contraseña</router-link> </p>
+      <p class="text-center">Olvido su contraseña? <router-link to="/send-email">Recuperar contraseña</router-link> </p>
       <!-- </b-form> -->                
     </form>
   </article>
@@ -55,11 +55,12 @@ export default {
     },
     doLogin(){
       var slf = this;
-      slf.$http.post('https://appsoho.herokuapp.com/api/login', this.form)
+      slf.$http.post('https://app-soho-back.herokuapp.com/api/login', this.form)
       .then((res)=>{
           if (res)  {
               localStorage.setItem("token", res.data.token);
               localStorage.setItem("user", res.data.user);
+              localStorage.setItem("sesion_status", true);
               slf.$router.push('/shoes')
           }else if(res.data.status == 401){
             slf.errorCred=true
