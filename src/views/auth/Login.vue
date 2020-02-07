@@ -58,11 +58,13 @@ export default {
       slf.$http.post('https://app-soho-back.herokuapp.com/api/login', this.form)
       .then((res)=>{
           if (res)  {
+
               localStorage.setItem("token", res.data.token);
               localStorage.setItem("user", res.data.user);
               localStorage.setItem("sesion_status", true);
               slf.$router.push('/shoes')
           }else if(res.data.status == 401){
+            
             slf.errorCred=true
              let self = this;
             setTimeout(function(){
